@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Serverless specification for a Spring Boot app.
+
+Resources:
+  SpringBootLambdaFunction:
+    Type: AWS::Serverless::Function
+#    Metadata:
+#      BuildMethod: Makefile
+    Properties:
+      Handler: com.example.LambdaHandler::handleRequest
+      Runtime: java11
+      MemorySize: 512
+      Timeout: 60
+      CodeUri: .
+      Events:
+        Lyrics:
+          Type: Api
+          Properties:
+            Path: /lyrics
+            Method: get
