@@ -1,11 +1,22 @@
-# Use a base Java image
-FROM openjdk:11.0.5-slim-buster
+# Use the base image with Java 11
+FROM public.ecr.aws/lambda/java:11
 
-# Set the working directory inside the container
-WORKDIR /app
+# Declare a build argument
+ARG ENV_DOCKER
+ARG ENVIRONMENT
 
-# Copy local code to the container image
-COPY target/read-lyrics.jar /app/read-lyrics.jar
+# Create a directory to keep our app and its dependencies
+WORKDIR /var/task
 
-# Set the CMD to your application's main class
-CMD ["java", "-jar", "/app/read-lyrics.jar"]
+# Copy the compiled classes from your target directory into the container
+COPY target/classes ${LAMBDA_TASK_ROOT}
+
+# Copy the Maven dependencies into the container
+COPY target/dependency/* ${LAMBDA_TASK_ROOT}/lib/
+
+# Set the environment variable from the build argument
+ENV ENV_DOCKER=$ENV_DOCKER
+ENV ENVIRONMENT=$ENVIRONMENT
+
+# Set the CMD to your handler
+CMD [ "com.example.LambdaHandler::handleRequest" ]

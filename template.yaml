@@ -5,8 +5,6 @@ Description: An AWS Serverless specification for a Spring Boot app.
 Resources:
   SpringBootLambdaFunction:
     Type: AWS::Serverless::Function
-#    Metadata:
-#      BuildMethod: Makefile
     Properties:
       Handler: com.example.LambdaHandler::handleRequest
       Runtime: java11
@@ -14,8 +12,18 @@ Resources:
       Timeout: 60
       CodeUri: .
       Events:
-        Lyrics:
+        LyricsGet: # This is the GET endpoint
+          Type: Api
+          Properties:
+            Path: /lyrics/{key}
+            Method: get
+        LyricsPost: # This is the POST endpoint
           Type: Api
           Properties:
             Path: /lyrics
-            Method: get
+            Method: post
+
+Globals:
+  Api:
+    BinaryMediaTypes:
+      - "multipart~1form-data"
