@@ -1,29 +1,47 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
-Description: An AWS Serverless specification for a Spring Boot app.
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  HelloWorld-Lambda
+
+  Sample SAM Template for HelloWorld-Lambda
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 20
+    MemorySize: 128
 
 Resources:
-  SpringBootLambdaFunction:
-    Type: AWS::Serverless::Function
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      Handler: com.example.LambdaHandler::handleRequest
+      ImageUri: 742040112049.dkr.ecr.us-east-1.amazonaws.com/read-lyric:latest
+      Handler: helloworld.App::handleRequest
       Runtime: java11
+      Architectures:
+        - x86_64
       MemorySize: 512
-      Timeout: 60
-      CodeUri: .
+      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+        Variables:
+          PARAM1: VALUE
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
       Events:
-        LyricsGet: # This is the GET endpoint
-          Type: Api
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /lyrics/{key}
+            Path: /hello
             Method: get
-        LyricsPost: # This is the POST endpoint
-          Type: Api
-          Properties:
-            Path: /lyrics
-            Method: post
 
-Globals:
-  Api:
-    BinaryMediaTypes:
-      - "multipart~1form-data"
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  HelloWorldApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  HelloWorldFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt HelloWorldFunction.Arn
+  HelloWorldFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HelloWorldFunctionRole.Arn

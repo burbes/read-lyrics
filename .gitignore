@@ -2,6 +2,8 @@ target/**
 logs/
 settings.xml_
 mongo-data/**
+old/**
+HelloWorldFunction/target/**
 
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
