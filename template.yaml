@@ -15,15 +15,17 @@ Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      ImageUri: 742040112049.dkr.ecr.us-east-1.amazonaws.com/read-lyric:latest
+      CodeUri: HelloWorldFunction/target/HelloWorld.jar
       Handler: helloworld.App::handleRequest
       Runtime: java11
       Architectures:
-        - x86_64
+        - arm64
       MemorySize: 512
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
           PARAM1: VALUE
+          ENVIRONMENT: AWS
+          ENV_DOCKER: false
           JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1 # More info about tiered compilation https://aws.amazon.com/blogs/compute/optimizing-aws-lambda-function-performance-for-java/
       Events:
         HelloWorld:
