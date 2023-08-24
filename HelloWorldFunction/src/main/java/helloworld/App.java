@@ -23,8 +23,6 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
 
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
 
-//        log.info("received: {}", input);
-
         log.info("starting");
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
@@ -32,10 +30,9 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
 
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
-        //            final String pageContents = this.getPageContents("https://checkip.amazonaws.com");
-//            String output = String.format("{ \"message\": \"hello world\", \"location\": \"%s\" }", pageContents);
 
-        String file = "munra.rtf";
+//        String file = "munra.rtf";
+        String file = "nothingelsematter.txt";
 
         log.info("getting file from s3");
         S3Utils s3Utils = new S3Utils();

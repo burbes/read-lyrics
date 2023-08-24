@@ -56,7 +56,8 @@ public class S3Utils {
     private static AmazonS3 getS3LocalStack() {
         log.info("Localstack Profile Selected");
         if (amazonS3 == null)  {
-            boolean docker = !Objects.nonNull(System.getenv(Constants.ENV_DOCKER)) || System.getenv(Constants.ENV_DOCKER).equals("true");
+//            boolean docker = !Objects.nonNull(System.getenv(Constants.ENV_DOCKER)) || System.getenv(Constants.ENV_DOCKER).equals("true");
+            boolean docker = true;
             log.info("docker: " + docker);
 
             if (endpointConfiguration == null) {

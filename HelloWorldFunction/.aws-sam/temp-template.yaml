@@ -6,7 +6,7 @@ Resources:
       MemorySize: 512
       Handler: helloworld.App
       CodeUri: /Users/naelsonmatheusjunior/repositories/HelloWorld-Lambda/HelloWorldFunction
-      Runtime: java17
+      Runtime: java11
       Architectures:
         - x86_64
       Environment:
