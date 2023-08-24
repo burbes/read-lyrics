@@ -1,3 +1,5 @@
+aws ecr create-repository --repository-name read-lyric --region us-east-1
+
 aws s3api create-bucket --bucket read-lyrics-bucket --region us-east-1
 
 aws rds create-db-instance \
